@@ -36,7 +36,7 @@ module TranslationCenter
 
     # updates the status of the translation key depending on the translations
     def update_status(lang)
-      lang = lang.downcase.gsub("-","_")
+      lang = lang.to_s.downcase.gsub("-","_")
       if self.translations.in(lang).blank?
         self.update_attribute("#{lang}_status", UNTRANSLATED)
       elsif !self.translations.in(lang).accepted.blank?
@@ -48,20 +48,20 @@ module TranslationCenter
 
     # returns true if the key is translated (has accepted translation) in this lang
     def accepted_in?(lang)
-      lang = lang.downcase.gsub("-","_")
+      lang = lang.to_s.downcase.gsub("-","_")
       self.send("#{lang}_status") == TRANSLATED
     end
     alias_method :translated_in?, :accepted_in?
 
     # returns the accepted translation in certain language
     def accepted_translation_in(lang)
-      lang = lang.downcase.gsub("-","_")
+      lang = lang.to_s.downcase.gsub("-","_")
       self.translations.accepted.in(lang).first
     end
 
     # returns true if the translation key is untranslated (has no translations) in the language
     def no_translations_in?(lang)
-      lang = lang.downcase.gsub("-","_")
+      lang = lang.to_s.downcase.gsub("-","_")
       self.send("#{lang}_status") == UNTRANSLATED
     end
     alias_method :untranslated_in?, :no_translations_in?
@@ -73,7 +73,7 @@ module TranslationCenter
 
     # returns true if the key is pending (has translations but none is accepted)
     def pending_in?(lang)
-      lang = lang.downcase.gsub("-","_")
+      lang = lang.to_s.downcase.gsub("-","_")
       self.send("#{lang}_status") == PENDING
     end
 
